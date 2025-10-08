@@ -1,5 +1,5 @@
 [project]
-name = "cube_utils"
+name = "spectralcubekit"
 version = "0.1.0"
 description = """Utility package for working with spectral data cubes."""
 authors = [
