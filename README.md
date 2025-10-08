@@ -7,7 +7,6 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/spectralcubekit)](https://pypi.org/project/spectralcubekit/)
 [![PyPI - License](https://img.shields.io/pypi/l/spectralcubekit)](https://opensource.org/licenses/MIT)
 [![PyPI - Version](https://img.shields.io/pypi/v/spectralcubekit)](https://pypi.org/project/spectralcubekit/)
-[![Downloads](https://static.pepy.tech/badge/spectralcubekit)](https://pepy.tech/project/spectralcubekit)
 
 ---
 
