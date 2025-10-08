@@ -7,10 +7,6 @@ authors = [
 ]
 keywords = ["hyperspectral", "processing", "spectral cube", "image"]
 license = {text = "LICENSE"}
-urls = {
-    "Homepage" = "https://github.com/z-vig/spectralcubekit.git",
-    "Repository" = "https://github.com/z-vig/spectralcubekit.git",
-}
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -18,6 +14,9 @@ dependencies = [
     "astropy (>=7.1.0,<8.0.0)"
 ]
 
+[project.urls]
+Homepage = "https://github.com/z-vig/spectralcubekit.git"
+Repository = "https://github.com/z-vig/spectralcubekit.git"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

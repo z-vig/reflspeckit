@@ -40,3 +40,8 @@ import spectralcubekit as sck
 fit_result = sck.fit_linear_cube(cube)
 sck.save_fit(fit_result, "path/to/save.fits")
 ```
+
+## 🔗 Links
+
+- **GitHub**: [https://github.com/z-vig/spectralcubekit.git](https://github.com/z-vig/spectralcubekit.git)
+- **Docs**: (coming soon!)
