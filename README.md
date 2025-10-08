@@ -24,6 +24,8 @@
 | 📈 `linear_fitting`  | Fits lines to entire spectral cubes along the **spectral domain** (z-axis). |
 | 🧩 `misc_utils`      | Miscellaneous utility functions for **spectral cube operations**. |
 
+*And more modules coming soon! As a work through my Ph.D., I will add all the utility functions I write for hyperspectral data processing here!*
+
 ---
 
 ## 🚀 **Quick Start**
