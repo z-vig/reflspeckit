@@ -8,10 +8,8 @@ authors = [
 keywords = ["hyperspectral", "processing", "spectral cube", "image"]
 license = {text = "LICENSE"}
 urls = {
-    "Homepage" = "https://github.com/yourusername/spectralcubekit",
-    "Repository" = "https://github.com/yourusername/spectralcubekit",
-    "Issues" = "https://github.com/yourusername/spectralcubekit/issues",
-    "Documentation" = "https://yourusername.github.io/spectralcubekit/"
+    "Homepage" = "https://github.com/z-vig/spectralcubekit.git",
+    "Repository" = "https://github.com/z-vig/spectralcubekit.git",
 }
 readme = "README.md"
 requires-python = ">=3.13"
