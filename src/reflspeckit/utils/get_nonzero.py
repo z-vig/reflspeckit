@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def last_nonzero_val_3D(cube, return_index=False):
+def last_nonzero_val_cube(cube, return_index=False):
     """
     If you have an empty 3D image array with the first two dimensions being
     pixels and the third dimension of size N, and each pixel is filled in to a
