@@ -1,6 +1,6 @@
 [project]
-name = "spectralcubekit"
-version = "0.1.2"
+name = "reflspeckit"
+version = "0.1.4"
 description = """Utility package for working with spectral data cubes."""
 authors = [
     {name = "Z.M. Vig",email = "zvig@umd.edu"}

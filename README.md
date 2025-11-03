@@ -1,4 +1,4 @@
-# 🌈 **spectralcubekit**
+# 🛰️ **spectralcubekit**
 
 > ⚙️ *A modern toolkit for working with any and all flavors of spectral data cubes.*
 
