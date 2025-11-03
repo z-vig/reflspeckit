@@ -4,9 +4,9 @@
 
 ---
 
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/spectralcubekit)](https://pypi.org/project/spectralcubekit/)
-[![PyPI - License](https://img.shields.io/pypi/l/spectralcubekit)](https://opensource.org/licenses/MIT)
-[![PyPI - Version](https://img.shields.io/pypi/v/spectralcubekit)](https://pypi.org/project/spectralcubekit/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/reflspeckit)](https://pypi.org/project/reflspeckit/)
+[![PyPI - License](https://img.shields.io/pypi/l/reflspeckit)](https://opensource.org/licenses/MIT)
+[![PyPI - Version](https://img.shields.io/pypi/v/reflspeckit)](https://pypi.org/project/reflspeckit/)
 
 ---
 
@@ -72,5 +72,5 @@ print(myspectrum.cube)  # Sequentially replaces myspectrum.cube to save memory.
 
 ## 🔗 Links
 
-- **GitHub**: [https://github.com/z-vig/spectralcubekit.git](https://github.com/z-vig/spectralcubekit.git)
+- **GitHub**: [https://github.com/z-vig/reflspeckit.git](https://github.com/z-vig/reflspeckit.git)
 - **Docs**: (coming soon!)
