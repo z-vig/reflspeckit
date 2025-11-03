@@ -1,6 +1,6 @@
-# 🛰️ **spectralcubekit**
+# 🛰️ **reflspeckit**
 
-> ⚙️ *A modern toolkit for working with any and all flavors of spectral data cubes.*
+> ⚙️ *A modern toolkit for working with any and all flavors of spectral data with a focus on applications for reflectance/emittance imaging spectroscopy*
 
 ---
 
