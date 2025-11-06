@@ -75,7 +75,7 @@ class Spec3D:
             self.cube, _ = box_filter_cube(self.cube, filter_width)
 
     def _validate(self):
-        if self.cube.ndim > 1:
+        if self.cube.ndim > 3:
             raise DimensionError(
                 "Input spectrum array has too many dimensions "
                 f"({self.cube.ndim})"

@@ -1,5 +1,6 @@
 # Dependencies
 import numpy as np
+import numpy.typing as npt
 
 # Top-Level Imports
 from reflspeckit.data_classes import (
@@ -7,12 +8,15 @@ from reflspeckit.data_classes import (
     WvlUnit,
     FilterMethod,
     FilterMethodLiteral,
+    ContinuumMethod,
+    ContinuumMethodLiteral,
 )
 from reflspeckit._errors import DimensionError
 
 # Relative Imports
 from .filtering import box_filter_single
 from .outlier_detection import remove_outliers
+from .continuum_removal import double_line
 
 
 class Spec1D:
@@ -39,14 +43,16 @@ class Spec1D:
     """
 
     def __init__(
-        self, spec_arr: np.ndarray, wvl_arr: np.ndarray, unit: WvlUnit = "nm"
+        self, spec_arr: npt.NDArray, wvl_arr: npt.NDArray, unit: WvlUnit = "nm"
     ):
         self.spectrum = spec_arr
         self.wavelength = Wavelength(wvl_arr, "nm")
 
-        self.no_outliers: np.ndarray = np.full_like(spec_arr, np.nan)
-        self.filtered: np.ndarray = np.full_like(spec_arr, np.nan)
-        self.noise: np.ndarray = np.full_like(spec_arr, np.nan)
+        self.no_outliers: npt.NDArray = np.full_like(spec_arr, np.nan)
+        self.filtered: npt.NDArray = np.full_like(spec_arr, np.nan)
+        self.noise: npt.NDArray = np.full_like(spec_arr, np.nan)
+        self.contrem: npt.NDArray = np.full_like(spec_arr, np.nan)
+        self.continuum: npt.NDArray = np.full_like(spec_arr, np.nan)
 
         self._validate()
 
@@ -71,6 +77,19 @@ class Spec1D:
         if method == "box_filter":
             self.filtered, self.noise = box_filter_single(
                 spectrum_to_use, filter_width
+            )
+
+    def continuum_removal(
+        self,
+        method: ContinuumMethod | ContinuumMethodLiteral,
+        filter_width: int = 5,
+    ):
+        if np.all(np.isnan(self.filtered)):
+            self.noise_reduction("box_filter", filter_width)
+
+        if method == "double_line":
+            self.contrem, self.continuum = double_line(
+                self.filtered, self.wavelength
             )
 
     def _validate(self):

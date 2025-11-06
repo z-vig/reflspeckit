@@ -35,6 +35,8 @@ class Wavelength:
         elif self.unit == "m":
             self.values *= 10**9
 
+        self.unit = "nm"
+
     def to_um(self):
         if self.unit == "nm":
             self.values *= 10**-3
@@ -43,6 +45,8 @@ class Wavelength:
         elif self.unit == "m":
             self.values *= 10**6
 
+        self.unit = "um"
+
     def to_m(self):
         if self.unit == "nm":
             self.values *= 10**-9
@@ -50,6 +54,8 @@ class Wavelength:
             self.values *= 10**-6
         elif self.unit == "m":
             pass
+
+        self.unit = "m"
 
     def _validate(self):
         if self.values.ndim > 1:
@@ -64,3 +70,10 @@ class FilterMethod(StrEnum):
 
 
 type FilterMethodLiteral = Literal["box_filter"]
+
+
+class ContinuumMethod(StrEnum):
+    DOUBLE_LINE = "double_line"
+
+
+type ContinuumMethodLiteral = Literal["double_line"]
