@@ -13,9 +13,25 @@ def double_line(
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Double-line continuum removal.
+
+    Parameters
+    ----------
+    spectrum: np.ndarray
+        Filtered spectrum with the continuum in place.
+    wvls: Wavelength
+        Wavelength values in the form of a Wavelength object.
+
+    Returns
+    -------
+    continuum_removed: np.ndarray
+        Input spectrum with the continuum removed.
+    continuum: np.ndarray
+        Continuum values for the spectrum.
     """
     # Getting initial continuum line parameters
     anchor_pts = np.array([700, 1550, 2600])
+    if wvls.unit == "nm":
+        pass
     if wvls.unit == "um":
         anchor_pts = anchor_pts * 10**-3
     if wvls.unit == "m":
@@ -35,24 +51,23 @@ def double_line(
 
     continuum1_removed = spectrum / continuum1
 
+    cont2_ranges: dict[str, tuple[float, float]] = {
+        "range1": (650.0, 1000.0),
+        "range2": (1250.0, 1600.0),
+        "range3": (2000.0, 2800.0),
+    }
+
+    def scale_dict_values(
+        data: dict[str, tuple[float, float]], factor: float
+    ) -> dict[str, tuple[float, float]]:
+        return {k: (v[0] * factor, v[1] * factor) for k, v in data.items()}
+
     if wvls.unit == "nm":
-        cont2_ranges = {
-            "range1": (650.0, 1000.0),
-            "range2": (1350.0, 1600.0),
-            "range3": (2000.0, 2800.0),
-        }
+        pass
     elif wvls.unit == "um":
-        cont2_ranges = {
-            "range1": (0.650, 1.000),
-            "range2": (1.350, 1.600),
-            "range3": (2.000, 2.800),
-        }
+        cont2_ranges = scale_dict_values(cont2_ranges, 10**-3)
     elif wvls.unit == "m":
-        cont2_ranges = {
-            "range1": (650 * 10**-9, 1000 * 10**-9),
-            "range2": (1350 * 10**-9, 1600 * 10**-9),
-            "range3": (2000 * 10**-9, 2800 * 10**-9),
-        }
+        cont2_ranges = scale_dict_values(cont2_ranges, 10**-9)
     else:
         raise ValueError("Wavelength Units not valid.")
 

@@ -95,7 +95,7 @@ class Spec1D:
 
     def fit_absorption(
         self, low_wvl: float, high_wvl: float, unit: WvlUnit = "nm"
-    ):
+    ) -> AbsorptionFeature1D:
         if np.all(np.isnan(self.contrem)):
             raise ValueError("Continuum Removal has not been performed yet.")
         feature = AbsorptionFeature1D(

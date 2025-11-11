@@ -3,7 +3,7 @@ import numpy as np
 import numpy.typing as npt
 
 # Relative Imports
-from .polyfit import polyfit_single
+from .polyfit import polyfit_cube
 
 # Top-Level Imports
 from reflspeckit.data_classes import Wavelength, WvlUnit
@@ -11,27 +11,7 @@ from reflspeckit.utils import find_wvl
 from reflspeckit._errors import WavelengthUnitError
 
 
-class AbsorptionFeature1D:
-    """
-    Stores band parameter values for a specific absorption feature within a
-    spectrum.
-
-    Parameters
-    ----------
-    spectrum: npt.NDArray
-        1-dimensional Array of continuum-removed spectrum values.
-    low_wavelength: float
-        Low end of absorption feature search.
-    high_wavelength: float
-        High end of absorption feature search.
-
-    Attributes
-    ----------
-
-    Notes
-    -----
-    """
-
+class AbsorptionFeature3D:
     def __init__(
         self,
         contrem_spectrum: npt.NDArray,
@@ -40,7 +20,7 @@ class AbsorptionFeature1D:
         high_wavelength: float,
         unit: WvlUnit = "nm",
         fit_order: int = 4,
-    ) -> None:
+    ):
         self.spec = contrem_spectrum
         self.wvl = wavelength
         self.lowvl = low_wavelength
@@ -54,22 +34,22 @@ class AbsorptionFeature1D:
 
         low_idx, _lowwvl_exact = find_wvl(self.wvl.values, low_wavelength)
         high_idx, _highwvl_exact = find_wvl(self.wvl.values, high_wavelength)
-
         fit_slice = slice(low_idx, high_idx)
 
         self.fit_wvl = self.wvl.values[fit_slice]
-        self._fit_spec = self.spec[fit_slice]
+        self._fit_spec = self.spec[:, :, fit_slice]
 
-        self.fit_result = polyfit_single(
-            self.spec[fit_slice], self.wvl.values[fit_slice], fit_order
+        self.fit_result = polyfit_cube(
+            self.spec[:, :, fit_slice], self.wvl.values[fit_slice], fit_order
         )
 
-    def calculate_center(self) -> tuple[float, float]:
-        center_idx = np.argmin(self.fit_result.model)
-        if (center_idx == 0) or (center_idx == self.spec.size - 1):
-            return np.nan, np.nan
-        else:
-            return self.fit_result.ydata[center_idx], self.fit_wvl[center_idx]
+    def calculate_center(self) -> npt.NDArray:
+        center_idx_arr = np.argmin(self.fit_result.model, axis=2)
+        bc_map = self.fit_wvl[center_idx_arr]
+        bc_map[center_idx_arr == 0] = np.nan
+        bc_map[center_idx_arr == self.spec.shape[-1] - 1] = np.nan
 
-    def calculate_ibd(self) -> float:
-        return np.sum(1 - self._fit_spec)
+        return bc_map
+
+    def calculate_ibd(self) -> npt.NDArray:
+        return np.sum(1 - self._fit_spec, axis=2)
