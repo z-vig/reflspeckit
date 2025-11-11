@@ -17,6 +17,7 @@ from reflspeckit._errors import DimensionError
 from .filtering import box_filter_single
 from .outlier_detection import remove_outliers
 from .continuum_removal import double_line
+from .absorption_feature1d import AbsorptionFeature1D
 
 
 class Spec1D:
@@ -91,6 +92,16 @@ class Spec1D:
             self.contrem, self.continuum = double_line(
                 self.filtered, self.wavelength
             )
+
+    def fit_absorption(
+        self, low_wvl: float, high_wvl: float, unit: WvlUnit = "nm"
+    ):
+        if np.all(np.isnan(self.contrem)):
+            raise ValueError("Continuum Removal has not been performed yet.")
+        feature = AbsorptionFeature1D(
+            self.contrem, self.wavelength, low_wvl, high_wvl, unit
+        )
+        return feature
 
     def _validate(self):
         if self.spectrum.ndim > 1:

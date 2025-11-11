@@ -1,3 +1,8 @@
 class DimensionError(Exception):
     def __init__(self, message: str) -> None:
         super().__init__(message)
+
+
+class WavelengthUnitError(Exception):
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
