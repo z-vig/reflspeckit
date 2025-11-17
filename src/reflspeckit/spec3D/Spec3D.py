@@ -60,8 +60,8 @@ class Spec3D:
         self, spec_arr: np.ndarray, wvl_arr: np.ndarray, unit: WvlUnit = "nm"
     ):
         self.cube = spec_arr
-        self.wavelength = Wavelength(wvl_arr, "nm")
-        self._albedo_idx, _ = find_wvl(self.wavelength, 1580, unit="nm")
+        self.wavelength = Wavelength(wvl_arr, unit)
+        self._albedo_idx, _ = find_wvl(self.wavelength, 1580, unit=unit)
 
         self._processing_flag = ProcessingFlag.RAW
 

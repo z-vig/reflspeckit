@@ -53,7 +53,7 @@ def double_line(
 
     cont2_ranges: dict[str, tuple[float, float]] = {
         "range1": (650.0, 1000.0),
-        "range2": (1250.0, 1600.0),
+        "range2": (1350.0, 1600.0),
         "range3": (2000.0, 2600.0),
     }
 
