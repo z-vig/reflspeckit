@@ -1,6 +1,5 @@
 # Standard Libraries
 from typing import Literal, Optional
-from enum import StrEnum
 
 # Dependencies
 import numpy as np
@@ -65,15 +64,6 @@ class Wavelength:
             )
 
 
-class FilterMethod(StrEnum):
-    BOX_FILTER = "box_filter"
-
-
 type FilterMethodLiteral = Literal["box_filter"]
-
-
-class ContinuumMethod(StrEnum):
-    DOUBLE_LINE = "double_line"
-
 
 type ContinuumMethodLiteral = Literal["double_line"]

@@ -1,3 +1,6 @@
+# Built-Ins
+from copy import copy
+
 # Dependencies
 import numpy as np
 import numpy.typing as npt
@@ -6,9 +9,7 @@ import numpy.typing as npt
 from reflspeckit.data_classes import (
     Wavelength,
     WvlUnit,
-    FilterMethod,
     FilterMethodLiteral,
-    ContinuumMethod,
     ContinuumMethodLiteral,
 )
 from reflspeckit._errors import DimensionError
@@ -49,6 +50,7 @@ class Spec1D:
         self.spectrum = spec_arr
         self.wavelength = Wavelength(wvl_arr, "nm")
 
+        self.original_spectrum = copy(spec_arr)
         self.no_outliers: npt.NDArray = np.full_like(spec_arr, np.nan)
         self.filtered: npt.NDArray = np.full_like(spec_arr, np.nan)
         self.noise: npt.NDArray = np.full_like(spec_arr, np.nan)
@@ -58,40 +60,33 @@ class Spec1D:
         self._validate()
 
     def outlier_removal(self, sigma_threshold: float = 1.5):
-        self.no_outliers = remove_outliers(self.spectrum, sigma_threshold)
+        no_outliers = remove_outliers(self.spectrum, sigma_threshold)
+        self.no_outliers = no_outliers
+        self.spectrum = no_outliers
 
     def noise_reduction(
         self,
-        method: FilterMethod | FilterMethodLiteral,
+        method: FilterMethodLiteral,
         filter_width: int,
-        remove_outliers: bool = True,
-        sigma_threshold: float = 1.5,
     ):
         """
         Apply noise reduction to the spectrum.
         """
-        if remove_outliers:
-            self.outlier_removal(sigma_threshold)
-            spectrum_to_use = self.no_outliers
-        else:
-            spectrum_to_use = self.spectrum
         if method == "box_filter":
             self.filtered, self.noise = box_filter_single(
-                spectrum_to_use, filter_width
+                self.spectrum, filter_width
             )
+            self.spectrum = self.filtered
 
     def continuum_removal(
         self,
-        method: ContinuumMethod | ContinuumMethodLiteral,
-        filter_width: int = 5,
+        method: ContinuumMethodLiteral,
     ):
-        if np.all(np.isnan(self.filtered)):
-            self.noise_reduction("box_filter", filter_width)
-
         if method == "double_line":
             self.contrem, self.continuum = double_line(
-                self.filtered, self.wavelength
+                self.spectrum, self.wavelength
             )
+            self.spectrum = self.contrem
 
     def fit_absorption(
         self, low_wvl: float, high_wvl: float, unit: WvlUnit = "nm"

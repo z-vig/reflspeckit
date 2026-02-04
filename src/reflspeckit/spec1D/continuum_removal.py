@@ -36,6 +36,13 @@ def double_line(
         anchor_pts = anchor_pts * 10**-3
     if wvls.unit == "m":
         anchor_pts = anchor_pts * 10**-9
+    if (wvls.values.min() > anchor_pts[0]) or (
+        wvls.values.max() < anchor_pts[-1]
+    ):
+        raise ValueError(
+            "Wavelength values are not in the correct range to perform lunar"
+            "double line removal."
+        )
 
     cont1_band_idx = np.empty(anchor_pts.size, dtype=np.int16)
     cont1_band_wvls = np.empty(anchor_pts.size, dtype=np.float64)
