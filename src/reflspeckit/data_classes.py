@@ -1,5 +1,5 @@
 # Standard Libraries
-from typing import Literal, Optional
+from typing import Literal, Optional, TypeAlias
 
 # Dependencies
 import numpy as np
@@ -64,6 +64,6 @@ class Wavelength:
             )
 
 
-type FilterMethodLiteral = Literal["box_filter"]
+FilterMethodLiteral: TypeAlias = Literal["box_filter"]
 
-type ContinuumMethodLiteral = Literal["double_line"]
+ContinuumMethodLiteral: TypeAlias = Literal["double_line", "single_line"]

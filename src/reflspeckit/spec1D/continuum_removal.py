@@ -101,3 +101,30 @@ def double_line(
     continuum2_removed = spectrum / continuum2
 
     return continuum2_removed, continuum2
+
+
+def single_line(
+    spectrum: np.ndarray, wvls: Wavelength, tie_points: list[float]
+) -> tuple[np.ndarray, np.ndarray]:
+    if not all(
+        [
+            (i < wvls.values.max()) and (i > wvls.values.min())
+            for i in tie_points
+        ]
+    ):
+        raise ValueError("Tie points are outside of spectrum wavelengths")
+
+    continuum_idx = np.empty(len(tie_points), dtype=np.int16)
+    continuum_wvls = np.empty(len(tie_points), dtype=np.float64)
+    for n in range(len(tie_points)):
+        idx = np.argmin(np.abs(wvls.values - tie_points[n]))
+        continuum_idx[n] = idx
+        continuum_wvls[n] = wvls.values[idx]
+
+    continuum_values = spectrum[continuum_idx]
+
+    continuum_interp = Interpolator(continuum_wvls, continuum_values)
+    continuum = continuum_interp.linear(wvls.values)
+    continuum_removed = spectrum / continuum
+
+    return continuum_removed, continuum

@@ -8,9 +8,7 @@ import numpy as np
 from reflspeckit.data_classes import (
     Wavelength,
     WvlUnit,
-    FilterMethod,
     FilterMethodLiteral,
-    ContinuumMethod,
     ContinuumMethodLiteral,
 )
 from reflspeckit._errors import DimensionError
@@ -72,9 +70,7 @@ class Spec3D:
         self.cube = remove_outliers(self.cube, sigma_threshold)
         self._processing_flag = ProcessingFlag.OUTLIERS_REMOVED
 
-    def noise_reduction(
-        self, method: FilterMethod | FilterMethodLiteral, filter_width: int
-    ):
+    def noise_reduction(self, method: FilterMethodLiteral, filter_width: int):
         print("Running Noise Reduction...")
         if self._processing_flag == ProcessingFlag.FILTERED:
             return
@@ -86,9 +82,7 @@ class Spec3D:
 
         self._processing_flag = ProcessingFlag.FILTERED
 
-    def continuum_removal(
-        self, method: ContinuumMethod | ContinuumMethodLiteral
-    ):
+    def continuum_removal(self, method: ContinuumMethodLiteral):
         print("Removing Spectral Continuum...")
         if self._processing_flag == ProcessingFlag.CONTINUUM_REMOVED:
             return

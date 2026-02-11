@@ -1,6 +1,6 @@
 [project]
 name = "reflspeckit"
-version = "0.2.0"
+version = "0.2.2"
 description = """Utility package for working with spectral data cubes."""
 authors = [
     {name = "Z.M. Vig",email = "zvig@umd.edu"}

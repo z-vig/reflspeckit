@@ -17,7 +17,7 @@ from reflspeckit._errors import DimensionError
 # Relative Imports
 from .filtering import box_filter_single
 from .outlier_detection import remove_outliers
-from .continuum_removal import double_line
+from .continuum_removal import double_line, single_line
 from .absorption_feature1d import AbsorptionFeature1D
 
 
@@ -81,10 +81,18 @@ class Spec1D:
     def continuum_removal(
         self,
         method: ContinuumMethodLiteral,
+        tie_points: list[float] | None = None,
     ):
         if method == "double_line":
             self.contrem, self.continuum = double_line(
                 self.spectrum, self.wavelength
+            )
+            self.spectrum = self.contrem
+        elif method == "single_line":
+            if tie_points is None:
+                raise ValueError("Must specify tie points to use single_line.")
+            self.contrem, self.continuum = single_line(
+                self.spectrum, self.wavelength, tie_points=tie_points
             )
             self.spectrum = self.contrem
 
