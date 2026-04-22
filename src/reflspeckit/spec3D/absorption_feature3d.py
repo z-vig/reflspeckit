@@ -20,11 +20,14 @@ class AbsorptionFeature3D:
         high_wavelength: float,
         unit: WvlUnit = "nm",
         fit_order: int = 4,
+        tie_to_wavelengths: bool = True,
+        model_density: int = 100,
     ):
         self.spec = contrem_spectrum
         self.wvl = wavelength
         self.lowvl = low_wavelength
         self.hiwvl = high_wavelength
+        self._tied_to_wvl = tie_to_wavelengths
 
         if unit != self.wvl.unit:
             raise WavelengthUnitError(
@@ -39,15 +42,34 @@ class AbsorptionFeature3D:
         self.fit_wvl = self.wvl.values[fit_slice]
         self._fit_spec = self.spec[:, :, fit_slice]
 
+        if tie_to_wavelengths:
+            model_xvals = None
+        else:
+            model_xvals = np.linspace(
+                self.wvl.values[low_idx],
+                self.wvl.values[high_idx],
+                model_density,
+            )
+
         self.fit_result = polyfit_cube(
-            self.spec[:, :, fit_slice], self.wvl.values[fit_slice], fit_order
+            self.spec[:, :, fit_slice],
+            self.wvl.values[fit_slice],
+            fit_order,
+            model_xvals=model_xvals,
         )
 
     def calculate_center(self) -> npt.NDArray:
         center_idx_arr = np.argmin(self.fit_result.model, axis=2)
-        bc_map = self.fit_wvl[center_idx_arr]
-        bc_map[center_idx_arr == 0] = np.nan
-        bc_map[center_idx_arr == self.spec.shape[-1] - 1] = np.nan
+        if self._tied_to_wvl:
+            bc_map = self.fit_wvl[center_idx_arr]
+            bc_map[center_idx_arr == 0] = np.nan
+            bc_map[center_idx_arr == self.spec.shape[-1] - 1] = np.nan
+        else:
+            bc_map = self.fit_result.model_domain[center_idx_arr]
+            bc_map[center_idx_arr == 0] = np.nan
+            bc_map[center_idx_arr == self.fit_result.model.shape[-1] - 1] = (
+                np.nan
+            )
 
         return bc_map
 

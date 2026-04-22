@@ -63,6 +63,8 @@ class Spec3D:
 
         self._processing_flag = ProcessingFlag.RAW
 
+        self.noise: np.ndarray
+
         self._validate()
 
     def outlier_removal(self, sigma_threshold: float = 1.5):
@@ -77,7 +79,7 @@ class Spec3D:
         if self._processing_flag != ProcessingFlag.OUTLIERS_REMOVED:
             self.outlier_removal()
         if method == "box_filter":
-            self.cube, _ = box_filter_cube(self.cube, filter_width)
+            self.cube, self.noise = box_filter_cube(self.cube, filter_width)
             self.albedo_image = self.cube[:, :, self._albedo_idx]
 
         self._processing_flag = ProcessingFlag.FILTERED
@@ -94,7 +96,12 @@ class Spec3D:
         self._processing_flag = ProcessingFlag.CONTINUUM_REMOVED
 
     def fit_absorption(
-        self, low_wvl: float, high_wvl: float, unit: WvlUnit = "nm"
+        self,
+        low_wvl: float,
+        high_wvl: float,
+        unit: WvlUnit = "nm",
+        tie_to_wavelengths: bool = True,
+        model_density: int = 100,
     ) -> AbsorptionFeature3D:
         print(
             f"Fitting Absorption Feature from {low_wvl} to {high_wvl} "
@@ -103,7 +110,13 @@ class Spec3D:
         if self._processing_flag != ProcessingFlag.CONTINUUM_REMOVED:
             raise ValueError("Continuum Removal has not been performed yet.")
         feature = AbsorptionFeature3D(
-            self.cube, self.wavelength, low_wvl, high_wvl, unit
+            self.cube,
+            self.wavelength,
+            low_wvl,
+            high_wvl,
+            unit,
+            tie_to_wavelengths=tie_to_wavelengths,
+            model_density=model_density,
         )
         return feature
 
@@ -117,7 +130,6 @@ class Spec3D:
         ibd2 = bnd2.calculate_ibd()
 
         rgb = make_rgb_composite(ibd1, ibd2, self.albedo_image)
-
         return rgb
 
     def _validate(self):
