@@ -1,6 +1,6 @@
 [project]
 name = "reflspeckit"
-version = "0.2.3"
+version = "0.2.5"
 description = """Utility package for working with spectral data cubes."""
 authors = [
     {name = "Z.M. Vig",email = "zvig@umd.edu"}
@@ -10,10 +10,10 @@ license = {text = "LICENSE"}
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "numpy (>=2.2,<3.0)",
+    "numpy>=2.2,<3.0",
     "astropy (>=7.1.0,<8.0.0)",
     "scipy (>=1.16.3,<2.0.0)",
-    "scipy-stubs (>=1.16.3.0,<2.0.0.0)"
+    "scipy-stubs (>=1.16.3.0,<2.0.0.0)",
 ]
 
 [project.urls]

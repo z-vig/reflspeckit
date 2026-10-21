@@ -40,11 +40,14 @@ class AbsorptionFeature1D:
         high_wavelength: float,
         unit: WvlUnit = "nm",
         fit_order: int = 4,
+        tie_to_wavelengths: bool = True,
+        model_density: int = 100,
     ) -> None:
         self.spec = contrem_spectrum
         self.wvl = wavelength
         self.lowvl = low_wavelength
         self.hiwvl = high_wavelength
+        self._tied_to_wvl = tie_to_wavelengths
 
         if unit != self.wvl.unit:
             raise WavelengthUnitError(
@@ -60,16 +63,30 @@ class AbsorptionFeature1D:
         self.fit_wvl = self.wvl.values[fit_slice]
         self._fit_spec = self.spec[fit_slice]
 
+        if tie_to_wavelengths:
+            model_xvals = None
+        else:
+            model_xvals = np.linspace(
+                self.wvl.values[low_idx],
+                self.wvl.values[high_idx],
+                model_density,
+            )
+
         self.fit_result = polyfit_single(
-            self.spec[fit_slice], self.wvl.values[fit_slice], fit_order
+            self.spec[fit_slice],
+            self.wvl.values[fit_slice],
+            fit_order,
+            model_xvals=model_xvals,
         )
 
-    def calculate_center(self) -> tuple[float, float]:
+    def calculate_center(self) -> float:
         center_idx = np.argmin(self.fit_result.model)
         if (center_idx == 0) or (center_idx == self.spec.size - 1):
-            return np.nan, np.nan
+            return np.nan
+        if self._tied_to_wvl:
+            return self.fit_wvl[center_idx]
         else:
-            return self.fit_result.ydata[center_idx], self.fit_wvl[center_idx]
+            return self.fit_result.model_domain[center_idx]
 
     def calculate_ibd(self) -> float:
         return np.sum(1 - self._fit_spec)

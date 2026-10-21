@@ -27,9 +27,7 @@ class CubeFitResult:
         Returns the coefficient of determination (R<sup>2</sup>)
         """
         ss_res = np.sum(self.res**2, axis=2)
-        ss_tot = np.sum(
-            (self.ydata - np.mean(self.ydata, axis=-1)[:, :, None]) ** 2
-        )
+        ss_tot = np.sum((self.ydata - np.mean(self.ydata, axis=-1)[:, :, None]) ** 2)
         return 1 - (ss_res / ss_tot)
 
     def eval(self, x: npt.NDArray):
@@ -77,13 +75,11 @@ def polyfit_cube(
         X_test = np.vander(model_xvals, order + 1)
         comparison_idx_list = []
         for i in model_xvals:
-            comparison_idx_list.append(np.argmin(abs(spectral_cube - i)))
+            comparison_idx_list.append(np.argmin(np.abs(wvl - i)))
         comparison_idx = np.array(comparison_idx_list)
         model_domain = model_xvals
 
     model = np.einsum("ij,...j->...i", X_test, beta)
     residual = spectral_cube[:, :, comparison_idx] - model
 
-    return CubeFitResult(
-        wvl, spectral_cube, model_domain, model, beta, residual, order
-    )
+    return CubeFitResult(wvl, spectral_cube, model_domain, model, beta, residual, order)

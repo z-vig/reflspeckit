@@ -2,13 +2,14 @@
 import numpy as np
 import numpy.typing as npt
 
-# Relative Imports
-from .polyfit import polyfit_cube
+from reflspeckit._errors import WavelengthUnitError
 
 # Top-Level Imports
 from reflspeckit.data_classes import Wavelength, WvlUnit
 from reflspeckit.utils import find_wvl
-from reflspeckit._errors import WavelengthUnitError
+
+# Relative Imports
+from .polyfit import polyfit_cube
 
 
 class AbsorptionFeature3D:
@@ -52,7 +53,7 @@ class AbsorptionFeature3D:
             )
 
         self.fit_result = polyfit_cube(
-            self.spec[:, :, fit_slice],
+            self._fit_spec,
             self.wvl.values[fit_slice],
             fit_order,
             model_xvals=model_xvals,
@@ -67,9 +68,7 @@ class AbsorptionFeature3D:
         else:
             bc_map = self.fit_result.model_domain[center_idx_arr]
             bc_map[center_idx_arr == 0] = np.nan
-            bc_map[center_idx_arr == self.fit_result.model.shape[-1] - 1] = (
-                np.nan
-            )
+            bc_map[center_idx_arr == self.fit_result.model.shape[-1] - 1] = np.nan
 
         return bc_map
 

@@ -97,12 +97,25 @@ class Spec1D:
             self.spectrum = self.contrem
 
     def fit_absorption(
-        self, low_wvl: float, high_wvl: float, unit: WvlUnit = "nm"
+        self,
+        low_wvl: float,
+        high_wvl: float,
+        unit: WvlUnit = "nm",
+        fit_order: int = 4,
+        tie_to_wavelengths: bool = True,
+        model_density=500,
     ) -> AbsorptionFeature1D:
         if np.all(np.isnan(self.contrem)):
             raise ValueError("Continuum Removal has not been performed yet.")
         feature = AbsorptionFeature1D(
-            self.contrem, self.wavelength, low_wvl, high_wvl, unit
+            self.contrem,
+            self.wavelength,
+            low_wvl,
+            high_wvl,
+            unit,
+            fit_order,
+            tie_to_wavelengths,
+            model_density,
         )
         return feature
 

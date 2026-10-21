@@ -4,21 +4,23 @@ from enum import Enum, auto
 # Dependencies
 import numpy as np
 
+from reflspeckit._errors import DimensionError
+
 # Top-Level Imports
 from reflspeckit.data_classes import (
+    ContinuumMethodLiteral,
+    FilterMethodLiteral,
     Wavelength,
     WvlUnit,
-    FilterMethodLiteral,
-    ContinuumMethodLiteral,
 )
-from reflspeckit._errors import DimensionError
 from reflspeckit.utils import find_wvl, make_rgb_composite
+
+from .absorption_feature3d import AbsorptionFeature3D
+from .continuum_removal import double_line
+from .filtering import box_filter_cube
 
 # Relative Imports
 from .outlier_detection import remove_outliers
-from .filtering import box_filter_cube
-from .continuum_removal import double_line
-from .absorption_feature3d import AbsorptionFeature3D
 
 
 class ProcessingFlag(Enum):
@@ -54,9 +56,7 @@ class Spec3D:
     For image cubes larger than memory, see `StreamingSpec3D`.
     """
 
-    def __init__(
-        self, spec_arr: np.ndarray, wvl_arr: np.ndarray, unit: WvlUnit = "nm"
-    ):
+    def __init__(self, spec_arr: np.ndarray, wvl_arr: np.ndarray, unit: WvlUnit = "nm"):
         self.cube = spec_arr
         self.wavelength = Wavelength(wvl_arr, unit)
         self._albedo_idx, _ = find_wvl(self.wavelength, 1580, unit=unit)
@@ -140,6 +140,5 @@ class Spec3D:
             )
         if self.cube.ndim > 3:
             raise DimensionError(
-                "Input spectrum array has too many dimensions "
-                f"({self.cube.ndim})"
+                f"Input spectrum array has too many dimensions ({self.cube.ndim})"
             )
