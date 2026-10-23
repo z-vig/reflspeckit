@@ -5,7 +5,7 @@ Welcome to `reflspeckit`
 
 ---
 
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/reflspeckit)](https://pypi.org/project/reflspeckit/) [![PyPI - License](https://img.shields.io/pypi/l/reflspeckit)](https://opensource.org/licenses/MIT) [![PyPI - Version](https://img.shields.io/pypi/v/reflspeckit)](https://pypi.org/project/reflspeckit/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/reflspeckit)](https://pypi.org/project/reflspeckit/) [![PyPI - License](https://img.shields.io/pypi/l/reflspeckit)](https://opensource.org/licenses/MIT) [![PyPI - Version](https://img.shields.io/pypi/v/reflspeckit)](https://pypi.org/project/reflspeckit/) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23602594.svg)](https://doi.org/10.5281/zenodo.23602594)
 
 ---
 
