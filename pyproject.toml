@@ -1,6 +1,6 @@
 [project]
 name = "reflspeckit"
-version = "0.2.5"
+version = "0.2.6"
 description = """Utility package for working with spectral data cubes."""
 authors = [
     {name = "Z.M. Vig",email = "zvig@umd.edu"}
@@ -23,3 +23,8 @@ Repository = "https://github.com/z-vig/spectralcubekit.git"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "twine>=7.0.0",
+]

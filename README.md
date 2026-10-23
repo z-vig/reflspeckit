@@ -1,44 +1,42 @@
-# 🛰️ **reflspeckit**
+Welcome to `reflspeckit`
+---
 
-> ⚙️ *A modern toolkit for working with any and all flavors of spectral data with a focus on applications for reflectance/emittance imaging spectroscopy*
+> *A modern toolkit for working with any and all flavors of spectral data with a focus on applications for reflectance/emittance imaging spectroscopy*
 
 ---
 
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/reflspeckit)](https://pypi.org/project/reflspeckit/)
-[![PyPI - License](https://img.shields.io/pypi/l/reflspeckit)](https://opensource.org/licenses/MIT)
-[![PyPI - Version](https://img.shields.io/pypi/v/reflspeckit)](https://pypi.org/project/reflspeckit/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/reflspeckit)](https://pypi.org/project/reflspeckit/) [![PyPI - License](https://img.shields.io/pypi/l/reflspeckit)](https://opensource.org/licenses/MIT) [![PyPI - Version](https://img.shields.io/pypi/v/reflspeckit)](https://pypi.org/project/reflspeckit/)
 
 ---
 
-## 🧠 What is `reflspeckit`?
+## What is `reflspeckit`?
 
-`reflspeckit` is a lightweight, modular Python package designed to make analysis of **spectral data cubes** simple, flexible, and fun. Whether you're exploring planetary hyperspectral data, performing band analysis, or building your own spectral pipelines — this toolkit’s got you covered.
+`reflspeckit` is a lightweight, modular Python package designed to make analysis of **spectral data cubes** simple and flexible. Whether you're exploring planetary hyperspectral data, performing band analysis, or building your own spectral pipelines — this toolkit’s got you covered.
 
 ---
 
-## ⚙️ Package Structure
+## Package Structure
 
 `reflspeckit` provides two primary classes for the analysis of spectral data plus a third class specialized for large datasets:
 
->- 📄**Spec1D** - handles 1-dimensional, single spectrum data
->- 📒**Spec3D** - handles 3-dimensional spectral image cubes
->- 🗄️**StreamingSpec3D** - handles large image cubes using a streaming approach
+>- **Spec1D** - handles 1-dimensional, single spectrum data
+>- **Spec3D** - handles 3-dimensional spectral image cubes approach
 
 Each class has equivalent methods, which are listed below:
 
 ---
 
-## 🧰 Available Methods
+## Available Methods
 
 |  Method | Description |
 |-------------|-------------|
-| 🚩`outlier_removal`| Removes **anomalous data** in the spectral domain |
-| 🔊`noise_reduction` | Provides filtering methods to **smooth data** in the spectral domain |
-|🚫`continuum_removal`| Estimates and removes a **spectral contrinuum** from the data|
-|🖼️`make_m3_rgb (3D only)`| Creates a standard mafic mineral **RGB color-composite** image|
-| 📈`fit_absorption` | Performs a **least squares polynomial** fit over a spectral region |
+| `outlier_removal`| Removes **anomalous data** in the spectral domain |
+| `noise_reduction` | Provides filtering methods to **smooth data** in the spectral domain |
+|`continuum_removal`| Estimates and removes a **spectral contrinuum** from the data|
+|`make_m3_rgb (3D only)`| Creates a standard mafic mineral **RGB color-composite** image|
+| `fit_absorption` | Performs a **least squares polynomial** fit over a spectral region |
 
-## 💡 Spectral Utilities
+## Spectral Utilities
 
 Various spectral utilities are available through the `reflspeckit.utils` subpackge.
 
@@ -52,7 +50,7 @@ Various spectral utilities are available through the `reflspeckit.utils` subpack
 
 ---
 
-## 🚀 **Quick Start**
+## **Quick Start**
 
 ```bash
 pip install reflspeckit
@@ -82,8 +80,8 @@ print(myspectrum.cube)  # Sequentially replaces myspectrum.cube to save memory.
 rgb = my_cube.make_m3_rgb()
 plt.imshow(rgb)  # Shows RGB color-composite image.
 ```
-
-## 🔗 Links
+---
+## Links
 
 - **GitHub**: [https://github.com/z-vig/reflspeckit.git](https://github.com/z-vig/reflspeckit.git)
 - **Docs**: (coming soon!)
