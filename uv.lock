@@ -579,7 +579,7 @@ wheels = [
 
 [[package]]
 name = "reflspeckit"
-version = "0.2.6"
+version = "0.2.7"
 source = { editable = "." }
 dependencies = [
     { name = "astropy" },
@@ -595,7 +595,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "astropy", specifier = ">=7.1.0,<8.0.0" },
+    { name = "astropy", specifier = ">=7.1.0,<8.0.3" },
     { name = "numpy", specifier = ">=2.2,<3.0" },
     { name = "scipy", specifier = ">=1.16.3,<2.0.0" },
     { name = "scipy-stubs", specifier = ">=1.16.3.0,<2.0.0.0" },
